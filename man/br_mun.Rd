@@ -3,7 +3,7 @@
 \docType{data}
 \name{br_mun}
 \alias{br_mun}
-\title{Sahape dos municipios do Brasil.}
+\title{Shapefile of the municipalities of Brazil.}
 \format{A data frame with 53940 rows and 10 variables:
 \describe{
   \item{price}{price, in US dollars}
@@ -17,6 +17,6 @@
 br_mun
 }
 \description{
-Sahape dos municipios do Brasil.
+Shapefile of the municipalities of Brazil.
 }
 \keyword{datasets}

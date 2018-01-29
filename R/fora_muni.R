@@ -24,6 +24,7 @@
 #' @import dismo
 #' @import maptools
 #' @import rgdal
+#' @import sp
 #'
 #' @export
 

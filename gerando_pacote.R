@@ -1,10 +1,11 @@
 #devtools::setup()
 
 library(devtools)
+
 create("spfilt", rstudio = FALSE)
 
 devtools::document()
-devtools::load_all()
+#devtools::load_all()
 
 
 

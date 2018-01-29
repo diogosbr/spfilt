@@ -1,4 +1,4 @@
-#' Sahape dos municipios do Brasil.
+#' Shapefile of the municipalities of Brazil.
 #'
 #' 
 #'
