@@ -63,7 +63,7 @@ filt = function(pts, shape.municipios = NULL){
     pts1[,i]=tolower(pts1[,i])
     pts1[,i]=tolower(pts1[,i])
   }
-  na.omit(pts1$NOMEMUNICP) = rm_accent(na.omit(pts1$NOMEMUNICP))
+  pts1$NOMEMUNICP = rm_accent(pts1$NOMEMUNICP)
   pts1$municipality = rm_accent(pts1$municipality)
   pts1$filt ="Ok"
   #pts1$filt = NA
