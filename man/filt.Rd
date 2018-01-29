@@ -7,9 +7,9 @@
 filt(pts, shape.municipios = NULL)
 }
 \arguments{
-\item{pts}{}
+\item{pts}{data.frame. Table with points of occurrence, including the municipalities informed on the label.}
 
-\item{shape.municipios}{number of partitions. The default is 3.}
+\item{shape.municipios}{It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame". If it is NULL, the Brazilian shape will be used available on the IBGE website.}
 }
 \value{
 

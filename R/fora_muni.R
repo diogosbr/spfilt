@@ -6,8 +6,8 @@
 #'
 #' @description A function to mark occurrences with the municipality informed different from the coordinate.
 #'
-#' @param pts 
-#' @param shape.municipios number of partitions. The default is 3.
+#' @param pts data.frame. Table with points of occurrence, including the municipalities informed on the label.
+#' @param shape.municipios It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame". If it is NULL, the Brazilian shape will be used available on the IBGE website.
 #' 
 #' @details 
 #'

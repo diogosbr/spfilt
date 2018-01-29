@@ -2,11 +2,11 @@
 #'
 #' 
 #'
-#' @format A data frame with 53940 rows and 10 variables:
+#' @format A SpatialPolygonsDataFrame with 1111111 municipalities and 9999 variables:
 #' \describe{
-#'   \item{price}{price, in US dollars}
-#'   \item{carat}{weight of the diamond, in carats}
+#'   \item{area}{price, in US dollars}
+#'   \item{perimeter}{weight of the diamond, in carats}
 #'   ...
 #' }
-#' @source \url{http://www.diamondse.info/}
+#' @source \url{https://downloads.ibge.gov.br/}
 "br_mun"
