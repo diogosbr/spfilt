@@ -1,6 +1,3 @@
-
-#Função para marcar ocorrências com município informado diferente da coordenada.
-
 #' @title Mark occurrences with the municipality informed different from the coordinate
 #' @name filt
 #'
@@ -11,14 +8,17 @@
 #' 
 #' @details 
 #'
-#' @return 
+#' @return a data frame
 #'
 #' @author Diogo S. B. Rocha
 #'
-#' @seealso \code{\link[dismo]{bioclim}}
 #'
 #' @examples
-#' fnames <- list.files(path=paste(system.file(package="dismo"), '/ex', sep=''), pattern='grd', full.names=TRUE )
+#' #Obtendo coordenadas da esp?cie/grupo de interesse
+#' mani=dismo::gbif("Tapirira guianensis")
+#' manimax=mani[,c("species","lon","lat", "municipality", "adm1")]
+#' manimax=na.exclude(manimax)
+#' filt(manimax)
 #'
 #' @import raster
 #' @import dismo

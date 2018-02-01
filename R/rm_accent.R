@@ -17,7 +17,10 @@
 #' 
 #'
 #' @examples
-#' inserir exemplo
+#' mani=dismo::gbif("Tapirira guianensis")
+#' manimax=mani[,c("species","lon","lat", "municipality", "adm1")]
+#' manimax=na.exclude(manimax)
+#' rm_accent(pts$municipality)
 #'
 #' @export
 

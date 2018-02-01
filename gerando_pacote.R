@@ -2,15 +2,17 @@
 
 library(devtools)
 
+#criou a estrutura do pacote
 create("spfilt", rstudio = FALSE)
 
 devtools::document()
 #devtools::load_all()
+
 install_github("diogosbr/spfilt")
 
 require(spfilt)
 
-
+?spfilt::filt
 
 #Obtendo coordenadas da esp?cie/grupo de interesse
 mani=dismo::gbif("Tapirira guianensis")
