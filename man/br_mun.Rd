@@ -4,10 +4,11 @@
 \name{br_mun}
 \alias{br_mun}
 \title{Shapefile of the municipalities of Brazil.}
-\format{A SpatialPolygonsDataFrame with 1111111 municipalities and 9999 variables:
+\format{A SpatialPolygonsDataFrame with 5907 municipalities and 21 variables:
 \describe{
-  \item{area}{price, in US dollars}
-  \item{perimeter}{weight of the diamond, in carats}
+  \item{area}{area of the municipality}
+  \item{perimeter}{perimeter of the municipality}
+  \item{NOMEMUNICP}{name of the municipality}
   ...
 }}
 \source{

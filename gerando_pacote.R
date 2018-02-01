@@ -12,7 +12,9 @@ install_github("diogosbr/spfilt")
 
 require(spfilt)
 
-?spfilt::filt
+?filt
+?rm_accent
+?br_mun
 
 #Obtendo coordenadas da esp?cie/grupo de interesse
 mani=dismo::gbif("Tapirira guianensis")
