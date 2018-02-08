@@ -81,7 +81,7 @@ filt = function(pts, shape.municipios = NULL) {
       pts1[i, "NOMEUF"] = "outside Brazil"
     }
     if ((pts1$municipality == pts1$NOMEMUNICP)[i] == FALSE) {
-      pts1[i, "filt"] = "outside county"
+      pts1[i, "filt"] = "outside municipality"
     }
     if ((pts1[i, "NOMEMUNICP"] == "outside Brazil")) {
       pts1[i, "filt"] = "outside Brazil"

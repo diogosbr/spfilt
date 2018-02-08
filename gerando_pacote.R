@@ -8,7 +8,7 @@ create("spfilt", rstudio = FALSE)
 devtools::document()
 #devtools::load_all()
 
-devtools::install_github("diogosbr/spfilt")
+devtools::install_github("diogosbr/spfilt", ref = "teste1")
 
 require(spfilt)
 
