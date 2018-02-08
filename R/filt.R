@@ -86,6 +86,6 @@ filt = function(pts, shape.municipios = NULL){
   pts2 = pts1[,-c(5,7)]
   names(pts2) = c("species", "lon", "lat", "county.orig" ,"county.shape", "status")
   
-  cat(table(pts2$status))
+  print(table(pts2$status))
   return(pts2)
 }
