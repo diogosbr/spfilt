@@ -14,7 +14,7 @@
 #'
 #'
 #' @examples
-#' #Obtendo coordenadas da esp?cie/grupo de interesse
+#' #Obtendo coordenadas da espécie/grupo de interesse
 #' mani=dismo::gbif("Tapirira guianensis")
 #' manimax=mani[,c("species","lon","lat", "municipality", "adm1")]
 #' manimax=na.exclude(manimax)
@@ -30,7 +30,10 @@
 
 filt = function(pts, shape.municipios = NULL){
   
-  #pts=manimax[,c("species","lon","lat","municipality", "adm1")]
+  if(class(pts) != "data.frame" | class(pts) != "matrix"){
+    stop("Invalid format. Please enter 'data.frame' or 'matrix'.")
+  }
+  c("species","lon","lat","municipality", "adm1")]
   pts=na.exclude(pts)
   
   #convertendo em um objeto 'spatial'

@@ -46,3 +46,5 @@ library(dismo)
 
 use_data(br_mun, overwrite = T)
 
+
+check()
