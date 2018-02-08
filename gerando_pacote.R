@@ -46,7 +46,7 @@ library(dismo)
 #br_mun = readOGR("./Shapes/brasil_mun_ibge/brasil_mun_ibge.shp", encoding = "UTF-8")
 #br_mun <- spTransform(br_mun, CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 
-use_data(br_mun, overwrite = T, ascii = T)
+use_data(br_mun, overwrite = T)
 
 
 check()
