@@ -34,7 +34,7 @@ head(pts)
 rm_accent(pts$municipality)
 
 filt(manimax)
-
+class(manimax)
 
 
 

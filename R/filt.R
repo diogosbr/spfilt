@@ -30,31 +30,28 @@
 
 filt = function(pts, shape.municipios = NULL){
   
-  if(class(pts) != "data.frame" | class(pts) != "matrix"){
+  if(class(pts) != "data.frame" & class(pts) != "matrix"){
     stop("Invalid format. Please enter 'data.frame' or 'matrix'.")
+  }
+  
+  if(dim(pts)[2] <= 4){
+    stop("The 'pts' argument must have three columns: 'species', 'lon', 'lat', 'municipality', 'UF'")
   }
   
   pts=na.exclude(pts)
   
-  #convertendo em um objeto 'spatial'
   coordinates(pts)<- ~lon+lat
   
-  if(is.null(shape.municipios)){
-    #br_mun=readOGR("./Shapes/brasil_mun_ibge/brasil_mun_ibge.shp")
-    br_mun
-  } 
+  if(is.null(shape.municipios)){br_mun} 
   if(is.null(shape.municipios) == FALSE & class(shape.municipios) == "SpatialPolygonsDataFrame"){
     br_mun=shape.municipios
   }
   
-  #atribuinto projeções aos shapes e aos pontos
-  #br_mun <- spTransform(br_mun, CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
   proj4string(pts) <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
   
-  #criando um data frame
   pts1=as.data.frame(pts)
   
-  #extraindo dados dos shapes a partir dos pontos
+  
   muni_shape=over(pts,br_mun)[,c('NOMEMUNICP','NOMEUF')]
   muni_shape[,1]=as.vector(muni_shape[,1])
   muni_shape[,2]=as.vector(muni_shape[,2])
@@ -69,7 +66,6 @@ filt = function(pts, shape.municipios = NULL){
   pts1$NOMEMUNICP = rm_accent(pts1$NOMEMUNICP)
   pts1$municipality = rm_accent(pts1$municipality)
   pts1$filt ="Ok"
-  #pts1$filt = NA
   
   for(i in 1:dim(pts1)[1]){
     if(is.na(pts1$municipality==pts1$NOMEMUNICP)[i]==TRUE){
