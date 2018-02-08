@@ -33,7 +33,7 @@ filt = function(pts, shape.municipios = NULL){
   if(class(pts) != "data.frame" | class(pts) != "matrix"){
     stop("Invalid format. Please enter 'data.frame' or 'matrix'.")
   }
-  c("species","lon","lat","municipality", "adm1")]
+  
   pts=na.exclude(pts)
   
   #convertendo em um objeto 'spatial'
