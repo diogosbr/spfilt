@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' #Obtendo coordenadas da espécie/grupo de interesse
-#' mani=dismo::gbif("Tapirira guianensis")
+#' mani=dismo::gbif("Manilkara maxima")
 #' manimax=mani[,c("species","lon","lat", "municipality", "adm1")]
 #' manimax=na.exclude(manimax)
 #' filt(manimax)
@@ -25,7 +25,7 @@
 #' @import maptools
 #' @import rgdal
 #' @import sp
-#'
+#' 
 #' @export
 
 filt = function(pts, shape.municipios = NULL) {
@@ -49,6 +49,8 @@ filt = function(pts, shape.municipios = NULL) {
   if (is.null(shape.municipios) == FALSE &
       class(shape.municipios) == "SpatialPolygonsDataFrame") {
     br_mun = shape.municipios
+    proj4string(br_mun) <-
+      CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
   }
   
   proj4string(pts) <-

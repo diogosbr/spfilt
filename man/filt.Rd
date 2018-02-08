@@ -22,7 +22,7 @@ A function to mark occurrences with the municipality informed different from the
 }
 \examples{
 #Obtendo coordenadas da espécie/grupo de interesse
-mani=dismo::gbif("Tapirira guianensis")
+mani=dismo::gbif("Manilkara maxima")
 manimax=mani[,c("species","lon","lat", "municipality", "adm1")]
 manimax=na.exclude(manimax)
 filt(manimax)
