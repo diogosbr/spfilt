@@ -33,7 +33,8 @@ head(pts)
 
 rm_accent(pts$municipality)
 
-(results = filt(manimax))
+results = filt(manimax)
+head(results,10)
 table(results$status)
 class(manimax)
 
