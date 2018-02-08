@@ -8,7 +8,7 @@ create("spfilt", rstudio = FALSE)
 devtools::document()
 #devtools::load_all()
 
-install_github("diogosbr/spfilt")
+devtools::install_github("diogosbr/spfilt")
 
 require(spfilt)
 
@@ -17,7 +17,7 @@ require(spfilt)
 ?br_mun
 
 #Obtendo coordenadas da esp?cie/grupo de interesse
-mani=dismo::gbif("Tapirira guianensis")
+mani=dismo::gbif("euterpe edulis")
 manimax=mani[,c("species","lon","lat", "municipality", "adm1")]
 manimax=na.exclude(manimax)
 
@@ -33,7 +33,8 @@ head(pts)
 
 rm_accent(pts$municipality)
 
-filt(manimax)
+(results = filt(manimax))
+table(results$status)
 class(manimax)
 
 
