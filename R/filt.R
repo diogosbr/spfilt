@@ -4,6 +4,7 @@
 #' @description A function to mark occurrences with the municipality informed different from the coordinate.
 #'
 #' @param pts data.frame. Table with points of occurrence, including the municipalities informed on the label. the data frame must contain the following columns in this order: "species","lon","lat", "municipality", "adm1"
+#' @param inverted logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.
 #' @param shape.municipios It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame". If it is NULL, the Brazilian shape will be used available on the IBGE website.
 #'
 #' @details
@@ -25,7 +26,7 @@
 #' 
 #' @export
 
-filt = function(pts, shape.municipios = NULL) {
+filt = function(pts, inverted = TRUE, shape.municipios = NULL) {
   if (class(pts) != "data.frame" & class(pts) != "matrix") {
     stop("Invalid format. Please enter 'data.frame' or 'matrix'.")
   }
@@ -95,23 +96,25 @@ filt = function(pts, shape.municipios = NULL) {
                   "county.shape",
                   "status")
   
-
-  for(i in 1:dim(pts2)[1]){
-    if(pts2$status[i]!="Ok"){
-      valor1 = pts2[i, c("lat", "lon")]
-      coordinates(valor1) = ~lon+lat
-      proj4string(valor1) = proj4string(br_mun)
-      muni = as.vector(over(valor1, br_mun)[, 'NOMEMUNICP'])
-      if(is.null(muni)){
-        rm_accent(muni)
-        muni = tolower(muni)
-        if(pts2$county.orig[i] == muni){
-          pts2$status[i] = "inverted coordinates"
+  if(inverted == T){
+    for(i in 1:dim(pts2)[1]){
+      if(pts2$status[i]!="Ok"){
+        valor1 = pts2[i, c("lat", "lon")]
+        coordinates(valor1) = ~lon+lat
+        proj4string(valor1) = proj4string(br_mun)
+        muni = as.vector(over(valor1, br_mun)[, 'NOMEMUNICP'])
+        if(is.null(muni)){
+          rm_accent(muni)
+          muni = tolower(muni)
+          if(pts2$county.orig[i] == muni){
+            pts2$status[i] = "inverted coordinates"
+          }
         }
       }
     }
   }
-  return(pts2)
-  cat("\n\n")
+  
   print(table(pts2$status))
+  cat("\n\n")
+  return(pts2)
 }
