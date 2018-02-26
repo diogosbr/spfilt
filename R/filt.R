@@ -102,10 +102,12 @@ filt = function(pts, shape.municipios = NULL) {
       coordinates(valor1) = ~lon+lat
       proj4string(valor1) = proj4string(br_mun)
       muni = as.vector(over(valor1, br_mun)[, 'NOMEMUNICP'])
-      rm_accent(muni)
-      muni = tolower(muni)
-      if(pts2$county.orig[i] == muni){
-        pts2$status[i] = "inverted coordinates"
+      if(is.null(muni)){
+        rm_accent(muni)
+        muni = tolower(muni)
+        if(pts2$county.orig[i] == muni){
+          pts2$status[i] = "inverted coordinates"
+        }
       }
     }
   }
