@@ -18,6 +18,6 @@
 br_mun
 }
 \description{
-Shapefile of the municipalities of Brazil.
+An object of the type SpatialPolygonsDataFrame created from the shapefile of municipalities in Brazil, from the Brazilian Institute of Geography and Statistics or IBGE (Portuguese: Brazilian Institute of Geography and Statistics)
 }
 \keyword{datasets}

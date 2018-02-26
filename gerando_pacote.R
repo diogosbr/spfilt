@@ -17,7 +17,7 @@ require(spfilt)
 ?br_mun
 
 #Obtendo coordenadas da esp?cie/grupo de interesse
-mani=dismo::gbif("euterpe edulis")
+mani=dismo::gbif("Euterpe edulis")
 manimax=mani[,c("species","lon","lat", "municipality", "adm1")]
 manimax=na.exclude(manimax)
 
@@ -47,7 +47,7 @@ library(dismo)
 #br_mun <- spTransform(br_mun, CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 
 use_data(br_mun, overwrite = T)
-
+use_data(euterpe, overwrite = T)
 
 check()
 ?check

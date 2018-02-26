@@ -3,13 +3,13 @@
 \docType{data}
 \name{euterpe}
 \alias{euterpe}
-\title{Euterpe edulis data.}
-\format{Distribution data for Euterpe edulis (a widely distributed palm, occurring continuously throughout the Atlantic Forest). Downloaded from GBIF with the gbif function from dismo package.}
+\title{Euterpe edulis occurrence data.}
+\format{An object of class \code{data.frame} with 200 rows and 5 columns.}
 \usage{
 euterpe
 }
 \description{
-Euterpe edulis data.
+Distribution data for Euterpe edulis (a widely distributed palm, occurring continuously throughout the Atlantic Forest). Downloaded from GBIF with the gbif function from dismo package.
 }
 \references{
 \url{http://www.gbif.org}

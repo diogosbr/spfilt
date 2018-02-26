@@ -21,10 +21,8 @@ A function to remove words accents.
 Originally available from Athos in \url{https://pt.stackoverflow.com/questions/46473/remover-acentos}
 }
 \examples{
-mani=dismo::gbif("Tapirira guianensis")
-manimax=mani[,c("species","lon","lat", "municipality", "adm1")]
-manimax=na.exclude(manimax)
-rm_accent(pts$municipality)
+
+rm_accent(euterpe$municipality)
 
 }
 \author{
