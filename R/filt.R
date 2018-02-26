@@ -36,7 +36,18 @@ filt = function(pts, inverted = TRUE, shape.municipios = NULL) {
       "The 'pts' argument must have three columns: 'species', 'lon', 'lat', 'municipality', 'UF'"
     )
   }
-  
+   if(length(table(euterpe["lat"][1]>90))>=2 | length(table(euterpe["lat"][1]<(-90)))>=2){
+     stop(
+       "There is no latitude greater than 90° or less than -90°"
+     )
+   }
+
+  if(length(table(euterpe["lon"][1]>180))>=2 | length(table(euterpe["lon"][1]<(-180)))>=2){
+    stop(
+      "There is no longititude greater than 180° or less than -180°"
+    )
+  }
+
   pts = na.exclude(pts)
   
   coordinates(pts) <- ~ lon + lat
