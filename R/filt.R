@@ -95,6 +95,21 @@ filt = function(pts, shape.municipios = NULL) {
                   "county.shape",
                   "status")
   
-  print(table(pts2$status))
+
+  for(i in 1:dim(pts2)[1]){
+    if(pts2$status[i]!="Ok"){
+      valor1 = pts2[i, c("lat", "lon")]
+      coordinates(valor1) = ~lon+lat
+      proj4string(valor1) = proj4string(br_mun)
+      muni = as.vector(over(valor1, br_mun)[, 'NOMEMUNICP'])
+      rm_accent(muni)
+      muni = tolower(muni)
+      if(pts2$county.orig[i] == muni){
+        pts2$status[i] = "inverted coordinates"
+      }
+    }
+  }
   return(pts2)
+  cat("\n\n")
+  print(table(pts2$status))
 }

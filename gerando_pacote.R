@@ -8,13 +8,17 @@ create("spfilt", rstudio = FALSE)
 devtools::document()
 #devtools::load_all()
 
-devtools::install_github("diogosbr/spfilt", ref = "teste1")
+devtools::install_github("diogosbr/spfilt", ref = "teste1", force=T)
 
 require(spfilt)
+
+filt(euterpe)
+rm_accent(euterpe$municipality)
 
 ?filt
 ?rm_accent
 ?br_mun
+?euterpe
 
 #Obtendo coordenadas da esp?cie/grupo de interesse
 mani=dismo::gbif("Euterpe edulis")
