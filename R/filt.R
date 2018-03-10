@@ -84,18 +84,23 @@ filt = function(pts, inverted = TRUE, shape.municipios = NULL) {
   pts1$filt = "Ok"
   
   for (i in 1:dim(pts1)[1]) {
-    if (is.na(pts1$municipality == pts1$NOMEMUNICP)[i] == TRUE) {
-      pts1[i, "filt"] = "outside Brazil"
-      pts1[i, "NOMEMUNICP"] = "outside Brazil"
-      pts1[i, "NOMEUF"] = "outside Brazil"
+    if(is.na(pts1$municipality[i])){
+      pts1[i, "filt"] = "original municipality not informed"
     }
-    if ((pts1$municipality == pts1$NOMEMUNICP)[i] == FALSE) {
-      pts1[i, "filt"] = "outside municipality"
-    }
-    if ((pts1[i, "NOMEMUNICP"] == "outside Brazil")) {
-      pts1[i, "filt"] = "outside Brazil"
-      pts1[i, "NOMEMUNICP"] = "not found"
-      pts1[i, "NOMEUF"] = "not found"
+    if(is.na(pts1$municipality[i]) == F){
+      if (is.na(pts1$municipality[i] == pts1$NOMEMUNICP[i]) == TRUE) {
+        pts1[i, "filt"] = "outside Brazil"
+        pts1[i, "NOMEMUNICP"] = "outside Brazil"
+        pts1[i, "NOMEUF"] = "outside Brazil"
+      }
+      if ((pts1$municipality[i] == pts1$NOMEMUNICP[i]) == FALSE) {
+        pts1[i, "filt"] = "outside municipality"
+      }
+      if ((pts1[i, "NOMEMUNICP"] == "outside Brazil")) {
+        pts1[i, "filt"] = "outside Brazil"
+        pts1[i, "NOMEMUNICP"] = "not found"
+        pts1[i, "NOMEUF"] = "not found"
+      }
     }
   }
   
