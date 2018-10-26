@@ -77,7 +77,7 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
     setTxtProgressBar(pb, i)
     
     if (is.na(pts1$loc[i]) & pts1$lon[i] > 90 | pts1$lon[i] < -90) {
-      pts1$status[i] = "suspeita"
+      pts1$status[i] = "suspicious"
     }
     
     if(!is.na(pts1$loc[i])){
@@ -97,7 +97,7 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
           CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
         result = over(new1, am)[, "nome"]
         if(!is.na(result)){
-          pts1$status[i] = "invertida"
+          pts1$status[i] = "inverted"
           pts1[i, c(1, 3, 2)] = pts1[i, c(1, 2, 3)]
         }
       }
@@ -110,7 +110,7 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
           CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
         result = over(new1, am)[, "nome"]
         if(!is.na(result)){
-          pts1$status[i] = "sinal_lon"
+          pts1$status[i] = "lon_signal"
         }else{pts1[i, c(2)] = (pts1[i, c(2)])*-1}
       }
       
@@ -122,7 +122,7 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
           CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
         result = over(new1, am)[, "nome"]
         if(!is.na(result)){
-          pts1$status[i] = "sinal_lat"
+          pts1$status[i] = "lat_signal"
         }else{pts1[i, c(3)] = (pts1[i, c(3)])*-1}
       }
       
@@ -134,12 +134,12 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
           CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
         result = over(new1, am)[, "nome"]
         if(!is.na(result)){
-          pts1$status[i] = "sinal_lon_lat"
+          pts1$status[i] = "lon_lat_signal"
         }else{pts1[i, c(2,3)] = (pts1[i, c(2,3)])*-1}
       }
       
       if(is.na(pts1$status[i])){#testando sinal lon e lat
-        pts1$status[i] = "suspeita"
+        pts1$status[i] = "suspicious"
       }
       
     }
@@ -161,7 +161,6 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
     #legend("bottomright", legend = unique(pts1$status), pch = 16,col = unique(pts1$status), bty="n", bg = "white")
     legend("bottomright", legend = unique(pts1$status), pch="+", col = unique(pts1$status), bty="o", bg = "white")
   }
-  
   
   especies <- unique(pts1$sp)
   #número de espécies
