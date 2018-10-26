@@ -13,13 +13,14 @@
 #'
 #' @author Diogo S. B. Rocha
 #'
-#'
 #' @examples
 #' 
 #' filt.generic(euterpe)
 #'
 #' @import raster
 #' @import rgdal
+#' @import sp
+#' @import utils
 #' 
 #' @export
 
@@ -145,8 +146,8 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
   }
   
   fim = Sys.time()
-  message("Finished: ")
-  message(fim - ini)
+  message("\n Finished: ")
+  message(round(fim - ini))
   
   pts1$status = as.factor(pts1$status)
   print(table(pts1$status))
@@ -155,7 +156,7 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
     pts = pts1
     coordinates(pts) = ~lon+lat
     plot(am, axes = T)
-    points(pts, col = pts1$status, pch = 16)
+    points(pts, col = pts1$status, pch = "+")
     #legend("bottomright", legend = unique(pts1$status), pch = 16,col = unique(pts1$status), bty="n", bg = "white")
     legend("bottomright", legend = unique(pts1$status), pch="+", col = unique(pts1$status), bty="o", bg = "white")
   }
@@ -168,5 +169,5 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
   if(!is.null(file)){
     write.table(pts1, file, sep = ";", row.names = F)
   }
-  
+  return(pts1)
 }

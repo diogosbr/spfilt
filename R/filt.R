@@ -7,12 +7,11 @@
 #' @param inverted logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.
 #' @param shape.municipios It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame". If it is NULL, the Brazilian shape will be used available on the IBGE website.
 #'
-#' @details
+#' @details qwertyqwerty
 #'
 #' @return a data frame
 #'
 #' @author Diogo S. B. Rocha
-#'
 #'
 #' @examples
 #' 
