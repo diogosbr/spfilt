@@ -3,9 +3,12 @@
 #'
 #' @description A function to mark occurrences based on user supplied vector file.
 #'
-#' @param pts data.frame. Table with points of occurrence, including the municipalities informed on the label. the data frame must contain the following columns in this order: "species","lon","lat", "municipality", "adm1"
-#' @param inverted logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.
-#' @param shape.municipios It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame". If it is NULL, the Brazilian shape will be used available on the IBGE website.
+#' @param pts data.frame. Table with points of occurrence.
+#' @param shape logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.
+#' @param few.pts .
+#' @param value
+#' @param plot
+#' @param file
 #'
 #' @details
 #'
@@ -15,14 +18,14 @@
 #'
 #' @examples
 #' 
-#' filt.generic(euterpe)
+#' filt.generic(Eugenia_aurata, shape = br_mun)
 #'
 #' @import rgdal
 #' @import sp
 #' 
 #' @export
 
-filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file = NULL){
+filt.generic = function(pts, shape = NULL, few.pts = T, value = 10, plot = TRUE, file = NULL){
   if(class(pts)!="data.frame"){
     stop('The occurrence points are only accepted in data.frame format, with at least the columns "sp", "lon", "lat" in the first positions')
   }else{
@@ -37,7 +40,7 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
     pts = remove.pts(pts, especies, value = value)
   }
   
-  if(!exists(shape)){stop("Please provide a valid vector file")}
+  if(is.null(shape)){stop("Please provide a valid vector file")}
   
   message("\n# Checking ... #\n")
   
@@ -147,8 +150,7 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
   }
   
   fim = Sys.time()
-  message("\n Finished: ")
-  message(round(fim - ini))
+  message("\n Finished: ", round(fim - ini,1))
   
   pts1$status = as.factor(pts1$status)
   print(table(pts1$status))
@@ -156,18 +158,18 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
   if(plot == T){
     pts = pts1
     coordinates(pts) = ~lon+lat
-    plot(am, axes = T)
+    plot(am, axes = T, border = "gray75")
     points(pts, col = pts1$status, pch = "+")
     #legend("bottomright", legend = unique(pts1$status), pch = 16,col = unique(pts1$status), bty="n", bg = "white")
     legend("bottomright", legend = unique(pts1$status), pch="+", col = unique(pts1$status), bty="o", bg = "white")
   }
   
   especies <- unique(pts1$sp)
-  #número de espécies
-  message("Numero de especies: ", length(especies))
+  #numero de especies
+  message(paste0("Species number: ", length(especies)), "\n", paste0("Records number: ", dim(pts1)[1]))
   
   if(!is.null(file)){
     write.table(pts1, file, sep = ";", row.names = F)
   }
-  return(pts1)
+  invisible(pts1)
 }

@@ -4,10 +4,11 @@
 #' @description A function to mark occurrences with the municipality informed different from the coordinate.
 #'
 #' @param pts data.frame. Table with points of occurrence, including the municipalities informed on the label. the data frame must contain the following columns in this order: "species","lon","lat", "municipality", "adm1"
-#' @param inverted logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.
 #' @param shape.municipios It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame". If it is NULL, the Brazilian shape will be used available on the IBGE website.
+#' @param field.pts string.
+#' @param field.shape string.
 #'
-#' @details qwertyqwerty
+#' @details empty yet
 #'
 #' @return a data frame
 #'
@@ -15,120 +16,154 @@
 #'
 #' @examples
 #' 
-#' filt(euterpe)
+#' filt(Eugenia_aurata)
 #'
 #' @import dismo
 #' @import maptools
 #' @import rgdal
 #' @import sp
+#' @import textclean
 #' 
 #' @export
 
-filt = function(pts, inverted = TRUE, shape.municipios = NULL) {
+filt = function(pts,
+                shape.municipios = NULL,
+                field.pts = "municipality",
+                field.shape = "NOMEMUNICP") {
   if (class(pts) != "data.frame" & class(pts) != "matrix") {
     stop("Invalid format. Please enter 'data.frame' or 'matrix'.")
   }
-  
-  if (dim(pts)[2] <= 4) {
+  if (length(pts[, 'lon']) != length(na.exclude(pts[, 'lon']))) {
     stop(
-      "The 'pts' argument must have three columns: 'species', 'lon', 'lat', 'municipality', 'UF'"
+      "Sorry, but this function does not yet accept NA in the field longitude or latitude. Remove NA's and try again."
     )
   }
-   if(length(table(pts[,"lat"]>90))>=2 | length(table(pts[,"lat"]<(-90)))>=2){
-     stop(
-       "There is no latitude greater than 90° or less than -90°"
-     )
-   }
-
-  if(length(table(pts[,"lon"]>180))>=2 | length(table(pts[,"lon"]<(-180)))>=2){
-    stop(
-      "There is no longititude greater than 180° or less than -180°"
-    )
+  
+  if (length(table(pts[, "lat"] > 90)) >= 2 |
+      length(table(pts[, "lat"] < (-90))) >= 2) {
+    stop("There is no latitude greater than 90° or less than -90°")
+  }
+  
+  if (length(table(pts[, "lon"] > 180)) >= 2 |
+      length(table(pts[, "lon"] < (-180))) >= 2) {
+    stop("There is no longititude greater than 180° or less than -180°")
   }
 
-  #pts = na.exclude(pts)
-  
   coordinates(pts) <- ~ lon + lat
   
   if (is.null(shape.municipios)) {
-    br_mun
-  }
-  if (is.null(shape.municipios) == FALSE &
-      class(shape.municipios) == "SpatialPolygonsDataFrame") {
-    br_mun = shape.municipios
-    proj4string(br_mun) <-
+    shape.municipios = br_mun
+    field.shape = "NOMEMUNICP"
+    }
+  
+  if (!is.null(shape.municipios) & class(shape.municipios) == "SpatialPolygonsDataFrame") {
+    proj4string(shape.municipios) <-
       CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-  }
+  }else{stop("Please provide an object of class SpatialPolygonsDataFrame")}
   
   proj4string(pts) <-
     CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
   
   pts1 = as.data.frame(pts)
   
+  from_shape = over(pts, shape.municipios)[, field.shape]
+  from_shape = as.vector(from_shape)
+  pts1 = cbind(pts1, from_shape)
   
-  muni_shape = over(pts, br_mun)[, c('NOMEMUNICP', 'NOMEUF')]
-  muni_shape[, 1] = as.vector(muni_shape[, 1])
-  muni_shape[, 2] = as.vector(muni_shape[, 2])
-  pts1 = cbind(pts1, muni_shape)
-  pts1[, 4] = as.vector(pts1[, 4])
-  pts1[, 5] = as.vector(pts1[, 5])
+  pts1[,field.pts] = as.vector(pts1[, field.pts])
+  pts1[, "from_shape"] = as.vector(pts1[, "from_shape"])
   
-  for (i in 4:dim(pts1)[2]) {
-    pts1[, i] = tolower(pts1[, i])
-    pts1[, i] = tolower(pts1[, i])
-  }
-  pts1$NOMEMUNICP = rm_accent(pts1$NOMEMUNICP)
-  pts1$municipality = rm_accent(pts1$municipality)
-  pts1$filt = "Ok"
+  pts1[,field.pts] = tolower(pts1[, field.pts])
+  pts1[, "from_shape"] = tolower(pts1[, "from_shape"])
   
+  pts1[,field.pts] = textclean::replace_non_ascii(pts1[, field.pts])
+  pts1[, "from_shape"] = textclean::replace_non_ascii(pts1[, "from_shape"])
+  
+  pts1$status = NA
+  
+  message("Processing.This may take a few minutes.\n")
+  
+  message("Step 1 ...\n")
   for (i in 1:dim(pts1)[1]) {
-    if(is.na(pts1$municipality[i])){
-      pts1[i, "filt"] = "original municipality not informed"
+    if (is.na(pts1[i, field.pts])) {
+      pts1[i, "status"] = paste0("original ", field.pts, " empty")
     }
-    if(is.na(pts1$municipality[i]) == F){
-      if (is.na(pts1$municipality[i] == pts1$NOMEMUNICP[i]) == TRUE) {
-        pts1[i, "filt"] = "outside Brazil"
-        pts1[i, "NOMEMUNICP"] = "outside Brazil"
-        pts1[i, "NOMEUF"] = "outside Brazil"
-      }
-      if ((pts1$municipality[i] == pts1$NOMEMUNICP[i]) == FALSE) {
-        pts1[i, "filt"] = "outside municipality"
-      }
-      if ((pts1[i, "NOMEMUNICP"] == "outside Brazil")) {
-        pts1[i, "filt"] = "outside Brazil"
-        pts1[i, "NOMEMUNICP"] = "not found"
-        pts1[i, "NOMEUF"] = "not found"
+    if (is.na(pts1[i, "from_shape"])) {
+      pts1[i, "status"] = "outside the polygon "
+    }
+    if(is.na(pts1[i,'status'])){
+      if(pts1[i,field.pts] == pts1[i,'from_shape']){
+        pts1[i,'status'] = "OK"
+      }else{pts1[i,'status'] = "suspicious"}
+    }
+  }
+  
+  message("Step 2 ...\n")
+  #invert lon lat
+  for (i in 1:dim(pts1)[1]) {
+    if (pts1[i, 'status'] == "suspicious") {
+      new1 = pts1[i,]
+      coordinates(new1) = ~ lat + lon
+      proj4string(new1) <-
+        CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+      result = over(new1, shape.municipios)[, field.shape]
+      if (!is.na(result)) {
+        pts1$status[i] = "inverted"
+        pts1[i, c('lat', 'lon')] = pts1[i, c('lon', 'lat')]
       }
     }
   }
   
-  pts2 = pts1[, -c(5, 7)]
-  names(pts2) = c("species",
-                  "lon",
-                  "lat",
-                  "county.orig" ,
-                  "county.shape",
-                  "status")
-  
-  if(inverted == T){
-    for(i in 1:dim(pts2)[1]){
-      if(pts2$status[i]!="Ok"){
-        valor1 = pts2[i, c("lon", "lat")]
-        coordinates(valor1) = ~lat+lon
-        proj4string(valor1) = proj4string(br_mun)
-        muni = as.vector(over(valor1, br_mun)[, 'NOMEMUNICP'])
-        if(is.na(muni)==FALSE){
-          rm_accent(muni)
-          muni = tolower(muni)
-          if(pts2$county.orig[i] == muni){
-            pts2$status[i] = "inverted coordinates"
-          }
-        }
-      }
+  message("Step 3 ...\n")
+  #lon signal
+  for (i in 1:dim(pts1)[1]) {
+    if (pts1[i, 'status'] == "suspicious") {
+      pts1[i, c('lon')] = (pts1[i, c('lon')])*-1
+      new1 = pts1[i, ]
+      coordinates(new1) = ~ lon + lat
+      proj4string(new1) <-
+        CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+      result = over(new1, shape.municipios)[, field.shape]
+      if(!is.na(result)){
+        pts1$status[i] = "lon_signal"
+      }else{pts1[i, c('lon')] = (pts1[i, c('lon')])*-1}
     }
   }
   
-  print(table(pts2$status))
-  cat("\n\n")
-  return(pts2)
+  message("Step 4 ...\n")
+  #lat signal
+  for (i in 1:dim(pts1)[1]) {
+    if (pts1[i, 'status'] == "suspicious") {
+      pts1[i, c('lat')] = (pts1[i, c('lat')])*-1
+      new1 = pts1[i, ]
+      coordinates(new1) = ~ lon + lat
+      proj4string(new1) <-
+        CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+      result = over(new1, shape.municipios)[, field.shape]
+      if(!is.na(result)){
+        pts1$status[i] = "lon_signal"
+      }else{pts1[i, c('lat')] = (pts1[i, c('lat')])*-1}
+    }
+  }
+  
+  message("Step 5 ...\n")
+  #lon lat signal
+  #lat signal
+  for (i in 1:dim(pts1)[1]) {
+    if (pts1[i, 'status'] == "suspicious") {
+      pts1[i, c('lon','lat')] = (pts1[i, c('lon','lat')])*-1
+      new1 = pts1[i, ]
+      coordinates(new1) = ~ lon + lat
+      proj4string(new1) <-
+        CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+      result = over(new1, shape.municipios)[, field.shape]
+      if(!is.na(result)){
+        pts1$status[i] = "lon_signal"
+      }else{pts1[i, c('lon','lat')] = (pts1[i, c('lon','lat')])*-1}
+    }
+  }
+  
+  message("Finished ...\n")
+  print(table(pts1$status))
+  invisible(pts1)
 }

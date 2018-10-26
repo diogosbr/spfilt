@@ -4,14 +4,17 @@
 \alias{filt}
 \title{Mark occurrences with the municipality informed different from the coordinate}
 \usage{
-filt(pts, inverted = TRUE, shape.municipios = NULL)
+filt(pts, shape.municipios = NULL, field.pts = "municipality",
+  field.shape = "NOMEMUNICP")
 }
 \arguments{
 \item{pts}{data.frame. Table with points of occurrence, including the municipalities informed on the label. the data frame must contain the following columns in this order: "species","lon","lat", "municipality", "adm1"}
 
-\item{inverted}{logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.}
-
 \item{shape.municipios}{It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame". If it is NULL, the Brazilian shape will be used available on the IBGE website.}
+
+\item{field.pts}{string.}
+
+\item{field.shape}{string.}
 }
 \value{
 a data frame
@@ -20,11 +23,11 @@ a data frame
 A function to mark occurrences with the municipality informed different from the coordinate.
 }
 \details{
-qwertyqwerty
+empty yet
 }
 \examples{
 
-filt(euterpe)
+filt(Eugenia_aurata)
 
 }
 \author{

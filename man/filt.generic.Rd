@@ -4,15 +4,17 @@
 \alias{filt.generic}
 \title{Marks occurrences based on user supplied vector file}
 \usage{
-filt.generic(pts, shape, few.pts = T, value = 10, plot = TRUE,
-  file = NULL)
+filt.generic(pts, shape = NULL, few.pts = T, value = 10,
+  plot = TRUE, file = NULL)
 }
 \arguments{
-\item{pts}{data.frame. Table with points of occurrence, including the municipalities informed on the label. the data frame must contain the following columns in this order: "species","lon","lat", "municipality", "adm1"}
+\item{pts}{data.frame. Table with points of occurrence.}
 
-\item{inverted}{logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.}
+\item{shape}{logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.}
 
-\item{shape.municipios}{It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame". If it is NULL, the Brazilian shape will be used available on the IBGE website.}
+\item{few.pts}{.}
+
+\item{file}{}
 }
 \value{
 a data frame
@@ -25,7 +27,7 @@ A function to mark occurrences based on user supplied vector file.
 }
 \examples{
 
-filt.generic(euterpe)
+filt.generic(Eugenia_aurata, shape = br_mun)
 
 }
 \author{
