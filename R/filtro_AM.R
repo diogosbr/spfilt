@@ -17,10 +17,8 @@
 #' 
 #' filt.generic(euterpe)
 #'
-#' @import raster
 #' @import rgdal
 #' @import sp
-#' @import utils
 #' 
 #' @export
 

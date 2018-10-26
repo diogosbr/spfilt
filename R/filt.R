@@ -17,7 +17,6 @@
 #' 
 #' filt(euterpe)
 #'
-#' @import raster
 #' @import dismo
 #' @import maptools
 #' @import rgdal

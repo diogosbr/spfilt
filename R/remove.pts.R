@@ -18,7 +18,8 @@
 #' 
 #' remove.pts(euterpe, unique(euterpe$sp))
 #'
-#' @import utils
+#' @importFrom utils txtProgressBar
+#' @importFrom utils setTxtProgressBar
 #' 
 #' @export
 remove.pts = function(pts, especies, value = 10){
