@@ -1,7 +1,7 @@
-#' @title Mark occurrences with the municipality informed different from the coordinate
-#' @name filt
+#' @title Marks occurrences based on user supplied vector file
+#' @name filt.generic
 #'
-#' @description A function to mark occurrences with the municipality informed different from the coordinate.
+#' @description A function to mark occurrences based on user supplied vector file.
 #'
 #' @param pts data.frame. Table with points of occurrence, including the municipalities informed on the label. the data frame must contain the following columns in this order: "species","lon","lat", "municipality", "adm1"
 #' @param inverted logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.
@@ -33,11 +33,13 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
   message(paste0("Species number: ", length(especies)), "\n", paste0("Records number: ", dim(pts)[1]))
   
   if(few.pts == T){
-    message("\n#   Removing the species with", value,"or fewer records   #\n")
+    message("\n#   Removing the species with ", value," or fewer records   #\n")
     pts = remove.pts(pts, especies, value = value)
   }
   
-  message("\n# Checking the points #\n")
+  if(!exists(shape)){stop("Please provide a valid vector file")}
+  
+  message("\n# Checking ... #\n")
   
   coordinates(pts) <- ~ lon + lat
   
@@ -61,6 +63,7 @@ filt.generic = function(pts, shape, few.pts = T, value = 10, plot = TRUE, file =
   pts1$status = NA
   head(pts1)
   
+  message("\n# Checking the points #\n")
   
   pb <- txtProgressBar(min = 1,
                        max = dim(pts1)[1],

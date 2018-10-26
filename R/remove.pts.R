@@ -13,7 +13,6 @@
 #'
 #' @author Diogo S. B. Rocha
 #'
-#'
 #' @examples
 #' 
 #' remove.pts(euterpe, unique(euterpe$sp))
@@ -34,7 +33,7 @@ remove.pts = function(pts, especies, value = 10){
       setTxtProgressBar(pb, grep(especie, especies)[1])
     }
     occs <- pts[pts$sp == especie,]
-    if (dim(occs)[1] > value) {
+    if (dim(occs)[1] >= value) {
       registros.10 = rbind(registros.10, occs)
     }
   }
