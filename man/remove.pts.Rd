@@ -20,7 +20,7 @@ a data frame
 A function to remove species with few records.
 }
 \details{
-
+empty yet
 }
 \examples{
 

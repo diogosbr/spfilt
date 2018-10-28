@@ -4,17 +4,21 @@
 \alias{filt.generic}
 \title{Marks occurrences based on user supplied vector file}
 \usage{
-filt.generic(pts, shape = NULL, few.pts = T, value = 10,
+filt.generic(pts, shape = NULL, few.pts = F, value = 10,
   plot = TRUE, file = NULL)
 }
 \arguments{
-\item{pts}{data.frame. Table with points of occurrence.}
+\item{pts}{table with points of occurrence.}
 
-\item{shape}{logical. If TRUE (default), it will check if longitude and latitude are changed. For now this option may be slow when there are many records of occurrence.}
+\item{shape}{vector object with the attribute to be checked.}
 
-\item{few.pts}{.}
+\item{few.pts}{logical. If TRUE (default), removes species with few records.}
 
-\item{file}{}
+\item{value}{minimum number of records to keep the species.}
+
+\item{plot}{logical. If TRUE (default), the points will be plotted on the provided vector object}
+
+\item{file}{Output filename}
 }
 \value{
 a data frame
@@ -23,11 +27,11 @@ a data frame
 A function to mark occurrences based on user supplied vector file.
 }
 \details{
-
+empty yet
 }
 \examples{
 
-filt.generic(Eugenia_aurata, shape = br_mun)
+filt.generic(Eugenia_aurata, shape = world)
 
 }
 \author{

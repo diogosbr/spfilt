@@ -4,7 +4,7 @@
 \name{Eugenia_aurata}
 \alias{Eugenia_aurata}
 \title{Eugenia aurata occurrence data.}
-\format{An object of class \code{data.frame} with 286 rows and 4 columns.}
+\format{An object of class \code{data.frame} with 270 rows and 5 columns.}
 \usage{
 Eugenia_aurata
 }

@@ -7,7 +7,7 @@
 #' @param especies vector.
 #' @param value Minimum number of records per species.
 #'
-#' @details
+#' @details empty yet
 #'
 #' @return a data frame
 #'
