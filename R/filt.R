@@ -29,7 +29,7 @@
 #'
 #' @export
 
-filt = function(pts,
+filt  <-  function(pts,
                 shape = NULL,
                 field.pts = "municipality",
                 field.shape = "NOMEMUNICP") {
@@ -55,15 +55,14 @@ filt = function(pts,
   coordinates(pts) <- ~ lon + lat
   
   if (is.null(shape)) {
-    #shape = world
-    #field.shape = "LONG_NAME"
+    #shape  <-  world
+    #field.shape  <-  "LONG_NAME"
     stop("Please provide a valid vector file")
   }
   
   if (!is.null(shape) &
       class(shape) == "SpatialPolygonsDataFrame") {
-    proj4string(shape) <-
-      CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+    shape <- spTransform(shape, CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
   } else{
     stop("Please provide an object of class SpatialPolygonsDataFrame")
   }
@@ -71,38 +70,38 @@ filt = function(pts,
   proj4string(pts) <-
     CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
   
-  pts1 = as.data.frame(pts)
+  pts1 <-  as.data.frame(pts)
   
-  from_shape = over(pts, shape)[, field.shape]
-  from_shape = as.vector(from_shape)
-  pts1 = cbind(pts1, from_shape)
+  from_shape  <-  over(pts, shape)[, field.shape]
+  from_shape  <-  as.vector(from_shape)
+  pts1  <-  cbind(pts1, from_shape)
   
-  pts1[, field.pts] = as.vector(pts1[, field.pts])
-  pts1[, "from_shape"] = as.vector(pts1[, "from_shape"])
+  pts1[, field.pts] <-  as.vector(pts1[, field.pts])
+  pts1[, "from_shape"] <-  as.vector(pts1[, "from_shape"])
   
-  pts1[, field.pts] = tolower(pts1[, field.pts])
-  pts1[, "from_shape"] = tolower(pts1[, "from_shape"])
+  pts1[, field.pts]  <-  tolower(pts1[, field.pts])
+  pts1[, "from_shape"]  <-  tolower(pts1[, "from_shape"])
   
-  pts1[, field.pts] = textclean::replace_non_ascii(pts1[, field.pts])
-  pts1[, "from_shape"] = textclean::replace_non_ascii(pts1[, "from_shape"])
+  pts1[, field.pts]  <-  textclean::replace_non_ascii(pts1[, field.pts])
+  pts1[, "from_shape"]  <-  textclean::replace_non_ascii(pts1[, "from_shape"])
   
-  pts1$status = NA
+  pts1$status  <-  NA
   
   message("Processing. This may take a few minutes.\n")
   
   message("Step 1 ...\n")
   for (i in 1:dim(pts1)[1]) {
     if (is.na(pts1[i, field.pts])) {
-      pts1[i, "status"] = paste0("original ", field.pts, " empty")
+      pts1[i, "status"]  <-  paste0("original ", field.pts, " empty")
     }
     if (is.na(pts1[i, "from_shape"])) {
-      pts1[i, "status"] = "outside the polygon "
+      pts1[i, "status"]  <-  "outside the polygon "
     }
     if (is.na(pts1[i, 'status'])) {
       if (pts1[i, field.pts] == pts1[i, 'from_shape']) {
-        pts1[i, 'status'] = "OK"
+        pts1[i, 'status']  <-  "OK"
       } else{
-        pts1[i, 'status'] = "suspicious"
+        pts1[i, 'status']  <-  "suspicious"
       }
     }
   }
@@ -111,19 +110,19 @@ filt = function(pts,
   #invert lon lat
   for (i in 1:dim(pts1)[1]) {
     if (pts1[i, 'status'] == "suspicious" | pts1[i, "status"] == "outside the polygon ") {
-      new1 = pts1[i,]
-      coordinates(new1) = ~ lat + lon
+      new1  <-  pts1[i,]
+      coordinates(new1)  <-  ~ lat + lon
       proj4string(new1) <-
         CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-      result = over(new1, shape)[, field.shape]
-      result = tolower(result)
-      new2 = data.frame(new1)
+      result  <-  over(new1, shape)[, field.shape]
+      result  <-  tolower(result)
+      new2  <-  data.frame(new1)
       if (!is.na(result)) {
         if (new2[, field.pts] == result) {
-          pts1$status[i] = "inverted"
-          pts1[i, c('lat', 'lon')] = pts1[i, c('lon', 'lat')]
+          pts1$status[i]  <-  "inverted"
+          pts1[i, c('lat', 'lon')]  <-  pts1[i, c('lon', 'lat')]
         } else{
-          pts1[i, 'status'] = "suspicious"
+          pts1[i, 'status']  <-  "suspicious"
         }
       }
     }
@@ -133,20 +132,20 @@ filt = function(pts,
   #lon signal
   for (i in 1:dim(pts1)[1]) {
     if (pts1[i, 'status'] == "suspicious"| pts1[i, "status"] == "outside the polygon ") {
-      new1 = pts1[i, ]
-      new1[, c('lon')] = (new1[, c('lon')]) * -1
-      coordinates(new1) = ~ lon + lat
+      new1  <-  pts1[i, ]
+      new1[, c('lon')]  <-  (new1[, c('lon')]) * -1
+      coordinates(new1)  <-  ~ lon + lat
       proj4string(new1) <-
         CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-      result = over(new1, shape)[, field.shape]
-      result = tolower(result)
-      new2 = data.frame(new1)
+      result  <-  over(new1, shape)[, field.shape]
+      result  <-  tolower(result)
+      new2  <-  data.frame(new1)
       if (!is.na(result)) {
         if (new2[, field.pts] == result) {
           pts1$status[i] = "lon_signal"
-          pts1[i, c('lon')] = (pts1[i, c('lon')]) * -1
+          pts1[i, c('lon')]  <-  (pts1[i, c('lon')]) * -1
         } else{
-          pts1[i, 'status'] = "suspicious"
+          pts1[i, 'status']  <-  "suspicious"
         }
       }
     }
@@ -156,20 +155,20 @@ filt = function(pts,
   #lat signal
   for (i in 1:dim(pts1)[1]) {
     if (pts1[i, 'status'] == "suspicious"| pts1[i, "status"] == "outside the polygon ") {
-      new1 = pts1[i,]
-      new1[, c('lat')] = (new1[, c('lat')]) * -1
-      coordinates(new1) = ~ lon + lat
+      new1  <-  pts1[i,]
+      new1[, c('lat')]  <-  (new1[, c('lat')]) * -1
+      coordinates(new1)  <-  ~ lon + lat
       proj4string(new1) <-
         CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-      result = over(new1, shape)[, field.shape]
-      result = tolower(result)
-      new2 = data.frame(new1)
+      result  <-  over(new1, shape)[, field.shape]
+      result  <-  tolower(result)
+      new2  <-  data.frame(new1)
       if (!is.na(result)) {
         if (new2[, field.pts] == result) {
-          pts1$status[i] = "lat_signal"
-          pts1[i, c('lat')] = (pts1[i, c('lat')]) * -1
+          pts1$status[i]  <-  "lat_signal"
+          pts1[i, c('lat')]  <-  (pts1[i, c('lat')]) * -1
         } else{
-          pts1[i, 'status'] = "suspicious"
+          pts1[i, 'status']  <-  "suspicious"
         }
       }
     }
@@ -180,20 +179,20 @@ filt = function(pts,
   #lat signal
   for (i in 1:dim(pts1)[1]) {
     if (pts1[i, 'status'] == "suspicious"| pts1[i, "status"] == "outside the polygon ") {
-      new1 = pts1[i, ]
-      new1[, c('lon', 'lat')] = (new1[, c('lon', 'lat')]) * -1
-      coordinates(new1) = ~ lon + lat
+      new1  <-  pts1[i, ]
+      new1[, c('lon', 'lat')]  <-  (new1[, c('lon', 'lat')]) * -1
+      coordinates(new1)  <-  ~ lon + lat
       proj4string(new1) <-
         CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-      result = over(new1, shape)[, field.shape]
-      result = tolower(result)
-      new2 = data.frame(new1)
+      result  <-  over(new1, shape)[, field.shape]
+      result  <-  tolower(result)
+      new2  <-  data.frame(new1)
       if (!is.na(result)) {
         if (new2[, field.pts] == result) {
           pts1$status[i] = "lon_lat_signal"
-          pts1[i, c('lon', 'lat')] = (pts1[i, c('lon', 'lat')]) * -1
+          pts1[i, c('lon', 'lat')]  <-  (pts1[i, c('lon', 'lat')]) * -1
         } else{
-          pts1[i, 'status'] = "suspicious"
+          pts1[i, 'status']  <-  "suspicious"
         }
       }
     }
