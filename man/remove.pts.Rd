@@ -7,7 +7,7 @@
 remove.pts(pts, especies, value = 10)
 }
 \arguments{
-\item{pts}{data.frame. Table with points of occurrence, including the municipalities informed on the label. the data frame must contain the following columns in this order: "species","lon","lat", "municipality", "adm1"}
+\item{pts}{data.frame. Table with points of occurrence.}
 
 \item{especies}{vector.}
 

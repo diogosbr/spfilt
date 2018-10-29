@@ -3,12 +3,12 @@
 #'
 #' @description A function to mark occurrences based on user supplied vector file.
 #'
-#' @param pts table with points of occurrence.
-#' @param shape vector object with the attribute to be checked.
+#' @param pts data.frame. Table with points of occurrence.
+#' @param shape 'SpatialPolygonsDataFrame' object with the attribute to be checked.
 #' @param few.pts logical. If TRUE (default), removes species with few records.
 #' @param value minimum number of records to keep the species.
 #' @param plot logical. If TRUE (default), the points will be plotted on the provided vector object
-#' @param file Output filename
+#' @param file output filename
 #'
 #' @details empty yet
 #'
@@ -18,7 +18,7 @@
 #'
 #' @examples
 #'
-#' filt.generic(Eugenia_aurata, shape = world)
+#' filt.generic(Eugenia_aurata, shape = world[world$LONG_NAME == 'Brazil',])
 #'
 #' @import rgdal
 #' @import sp
@@ -58,10 +58,14 @@ filt.generic = function(pts,
     pts = remove.pts(pts, especies, value = value)
   }
   
-  if (is.null(shape)) {
-    #shape = world
-    stop("Please provide a valid vector file")
+  if (!is.null(shape) &
+      class(shape) == "SpatialPolygonsDataFrame") {
+    proj4string(shape) <-
+      CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+  } else{
+    stop("Please provide an object of class SpatialPolygonsDataFrame")
   }
+  
   
   message("\n# Checking ... #\n")
   

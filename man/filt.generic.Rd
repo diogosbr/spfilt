@@ -8,9 +8,9 @@ filt.generic(pts, shape = NULL, few.pts = F, value = 10,
   plot = TRUE, file = NULL)
 }
 \arguments{
-\item{pts}{table with points of occurrence.}
+\item{pts}{data.frame. Table with points of occurrence.}
 
-\item{shape}{vector object with the attribute to be checked.}
+\item{shape}{'SpatialPolygonsDataFrame' object with the attribute to be checked.}
 
 \item{few.pts}{logical. If TRUE (default), removes species with few records.}
 
@@ -18,7 +18,7 @@ filt.generic(pts, shape = NULL, few.pts = F, value = 10,
 
 \item{plot}{logical. If TRUE (default), the points will be plotted on the provided vector object}
 
-\item{file}{Output filename}
+\item{file}{output filename}
 }
 \value{
 a data frame
@@ -31,7 +31,7 @@ empty yet
 }
 \examples{
 
-filt.generic(Eugenia_aurata, shape = world)
+filt.generic(Eugenia_aurata, shape = world[world$LONG_NAME == 'Brazil',])
 
 }
 \author{

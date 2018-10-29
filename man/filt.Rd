@@ -2,25 +2,25 @@
 % Please edit documentation in R/filt.R
 \name{filt}
 \alias{filt}
-\title{Mark occurrences with the municipality informed different from the coordinate}
+\title{Mark occurrences with the name informed different from the coordinate in a user supplied vector file}
 \usage{
 filt(pts, shape = NULL, field.pts = "municipality",
   field.shape = "NOMEMUNICP")
 }
 \arguments{
-\item{pts}{data.frame. Table with points of occurrence, including the municipalities informed on the label. the data frame must contain the following columns in this order: "species","lon","lat", "municipality", "adm1"}
+\item{pts}{data.frame. Table with points of occurrence, including the municipalities informed on the label.}
 
-\item{shape}{It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame". If it is NULL, the Brazilian shape will be used available on the IBGE website.}
+\item{shape}{It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame".}
 
-\item{field.pts}{string.}
+\item{field.pts}{string. Name of pts column containing the standard to be searched for.}
 
-\item{field.shape}{string.}
+\item{field.shape}{string.Name of shape column containing the standard to be searched for.}
 }
 \value{
 a data frame
 }
 \description{
-A function to mark occurrences with the municipality informed different from the coordinate.
+A function to check whether the coordinates are consistent with the name of the polygon.
 }
 \details{
 empty yet

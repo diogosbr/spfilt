@@ -3,7 +3,7 @@
 #'
 #' @description A function to remove species with few records.
 #'
-#' @param pts data.frame. Table with points of occurrence, including the municipalities informed on the label. the data frame must contain the following columns in this order: "species","lon","lat", "municipality", "adm1"
+#' @param pts data.frame. Table with points of occurrence.
 #' @param especies vector.
 #' @param value Minimum number of records per species.
 #'
