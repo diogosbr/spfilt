@@ -36,10 +36,9 @@ remove.dups  <-  function(pts,
           cell <- cellFromXY(mask, pts[pts$sp == specie,c("lon","lat")])  # get the cell number for each point
           dup <- duplicated(cell)
           pts1 <- pts[pts$sp == specie | !dup, ]  # select the records that are not duplicated
-          
-          if(na.rm == TRUE){
+        }
+		if(na.rm == TRUE){
             pts1 <- pts1[!is.na(extract(mask, pts1[,c('lon','lat')])), ]  #selecionando apenas pontos que tem valor de raster
-          }
         }
       }else{
         # Selecionar pontos espacialmente únicos #
