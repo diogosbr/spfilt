@@ -50,12 +50,12 @@ filt.generic = function(pts,
   }
   pts$sp = as.character(pts$sp)
   especies <- unique(pts$sp)
-  message(paste0("Species number: ", length(especies)),
+  message(paste0("\n Species number: ", length(especies)),
           "\n",
           paste0("Records number: ", dim(pts)[1]))
   
   if (few.pts == T) {
-    message("\n#   Removing the species with ", value, " or fewer records   #\n")
+    message("\n#   Removing the species with ", value, " or fewer records   #")
     pts = remove.pts(pts, especies, value = value)
   }
   
@@ -68,7 +68,7 @@ filt.generic = function(pts,
   }
   
   
-  message("\n# Checking ... #\n")
+  message("\n\n# Checking ... #\n")
   
   coordinates(pts) <- ~ lon + lat
   
@@ -92,7 +92,7 @@ filt.generic = function(pts,
   pts1$status = NA
   head(pts1)
   
-  message("\n# Checking the points #\n")
+  message("\n# Checking the points #")
   
   pb <- txtProgressBar(min = 1,
                        max = dim(pts1)[1],
