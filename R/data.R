@@ -12,3 +12,8 @@
 #' @description shape.
 #' @references \url{http://www.gbif.org}
 "world"
+
+#' Rasetr South America.
+#' @description raster.
+#' @references \url{http://www.gbif.org}
+"example"

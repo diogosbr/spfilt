@@ -7,7 +7,7 @@
 #' @param especies vector.
 #' @param value Minimum number of records per species.
 #'
-#' @detailsReturns a table with the species with a record number equal to or greater than that reported.
+#' @details Returns a table with the species with a record number equal to or greater than that reported.
 #'
 #' @return a data frame
 #'

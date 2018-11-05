@@ -19,6 +19,9 @@ a data frame
 \description{
 A function to remove species with few records.
 }
+\details{
+Returns a table with the species with a record number equal to or greater than that reported.
+}
 \examples{
 
 remove.pts(Eugenia_aurata, unique(Eugenia_aurata$sp))
