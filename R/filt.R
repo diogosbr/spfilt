@@ -3,12 +3,12 @@
 #'
 #' @description A function to check whether the coordinates are consistent with the name of the polygon.
 #'
-#' @param pts data.frame. Table with points of occurrence, including the municipalities informed on the label.
+#' @param pts Data.frame. Table with points of occurrence, including the municipalities informed on the label.
 #' @param shape It can be a shape of municipalities of Brazil in format "SpatialPolygonsDataFrame".
-#' @param field.pts string. Name of pts column containing the standard to be searched for.
-#' @param field.shape string.Name of shape column containing the standard to be searched for.
+#' @param field.pts String. Name of pts column containing the standard to be searched for.
+#' @param field.shape String.Name of shape column containing the standard to be searched for.
 #'
-#' @details empty yet
+#' @details The initial idea of this function is to verify if the coordinates informed in the label of the registries are located within the limits of the municipality informed by the label. Returns a table equal to the one entered by adding a column (status) indicating whether the coordinates are consistent.
 #'
 #' @return a data frame
 #'
@@ -16,7 +16,8 @@
 #'
 #' @examples
 #'
-#' filt(Eugenia_aurata, shape = world, field.pts = "country", field.shape = "LONG_NAME")
+#' eug <- filt(Eugenia_aurata, shape = world, field.pts = "country", field.shape = "LONG_NAME")
+#' eug
 #'
 #' @import dismo
 #' @import maptools

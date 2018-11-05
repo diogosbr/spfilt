@@ -7,7 +7,7 @@
 #' @param especies vector.
 #' @param value Minimum number of records per species.
 #'
-#' @details empty yet
+#' @detailsReturns a table with the species with a record number equal to or greater than that reported.
 #'
 #' @return a data frame
 #'
@@ -15,7 +15,7 @@
 #'
 #' @examples
 #'
-#' remove.pts(euterpe, unique(euterpe$sp))
+#' remove.pts(Eugenia_aurata, unique(Eugenia_aurata$sp))
 #'
 #' @importFrom utils txtProgressBar
 #' @importFrom utils setTxtProgressBar

@@ -19,12 +19,9 @@ a data frame
 \description{
 A function to remove species with few records.
 }
-\details{
-empty yet
-}
 \examples{
 
-remove.pts(euterpe, unique(euterpe$sp))
+remove.pts(Eugenia_aurata, unique(Eugenia_aurata$sp))
 
 }
 \author{
