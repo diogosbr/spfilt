@@ -4,7 +4,7 @@
 \alias{remove.dups}
 \title{Remove duplicated and NAs}
 \usage{
-remove.dups(pts, mask = example, na.rm = FALSE)
+remove.dups(pts, mask = example, na.rm = FALSE, dup = T)
 }
 \arguments{
 \item{pts}{Data.frame. Table with points of occurrence, including the municipalities informed on the label.}
