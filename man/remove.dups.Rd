@@ -12,6 +12,8 @@ remove.dups(pts, mask = example, na.rm = FALSE, dup = T)
 \item{mask}{String.Name of shape column containing the standard to be searched for.}
 
 \item{na.rm}{String. Name of pts column containing the standard to be searched for.}
+
+\item{dup}{logical}
 }
 \value{
 a data frame
@@ -24,7 +26,7 @@ The
 }
 \examples{
 
-eug <- remove.dups(Eugenia_aurata, mask = example, na.rm = FALSE)
+eug <- remove.dups(Eugenia_aurata, mask = example, na.rm = FALSE, dup = F)
 eug
 
 }

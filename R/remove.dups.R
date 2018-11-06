@@ -6,6 +6,7 @@
 #' @param pts Data.frame. Table with points of occurrence, including the municipalities informed on the label.
 #' @param na.rm String. Name of pts column containing the standard to be searched for.
 #' @param mask String.Name of shape column containing the standard to be searched for.
+#' @param dup logical
 #'
 #' @details The
 #'
@@ -15,7 +16,7 @@
 #'
 #' @examples
 #'
-#' eug <- remove.dups(Eugenia_aurata, mask = example, na.rm = FALSE)
+#' eug <- remove.dups(Eugenia_aurata, mask = example, na.rm = FALSE, dup = F)
 #' eug
 #'
 #' @importFrom raster cellFromXY extract
