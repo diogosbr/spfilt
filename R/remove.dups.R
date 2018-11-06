@@ -27,14 +27,14 @@ remove.dups  <-  function(pts,
                           mask = example,
                           na.rm = FALSE,
                           dup = T) {
-  if (names(pts)[1] == "sp"  |
-      names(pts)[1] == "lon" | names(pts)[1] == "lat") {
+  if (names(pts)[1] == "sp"  &
+      names(pts)[2] == "lon" & names(pts)[3] == "lat") {
     species <- unique(pts$sp)
     
     if (dup == T) {
       message("cleaning duplicates")
       dupls <- !duplicated(pts[, c('sp', 'lon', 'lat')])
-      registros <- registros[dupls,]
+      pts <- pts[dupls, ]
     }
     
     if (exists("mask")) {
@@ -42,7 +42,7 @@ remove.dups  <-  function(pts,
         pb <- txtProgressBar(min = 1,
                              max = length(species),
                              style = 3)
-        registros.unique = c()
+        pts1 = c()
         for (i in 1:length(species)) {
           setTxtProgressBar(pb, i)
           # Selecionar pontos espacialmente únicos #
@@ -51,13 +51,13 @@ remove.dups  <-  function(pts,
           dup <- duplicated(cell)
           pts2 <-
             pts[pts$sp == species[i] |
-                  !dup,]  # select the records that are not duplicated
-          registros.unique = rbind(registros.unique, pts2)
+                  !dup, ]  # select the records that are not duplicated
+          pts1 = rbind(pts1, pts2)
         }
         if (na.rm == TRUE) {
           message("\n Removing NA \n")
           pts1 <-
-            pts1[!is.na(extract(mask, pts1[, c('lon', 'lat')])),]  #selecionando apenas pontos que tem valor de raster
+            pts1[!is.na(extract(mask, pts1[, c('lon', 'lat')])), ]  #selecionando apenas pontos que tem valor de raster
         }
       } else{
         # Selecionar pontos espacialmente únicos #
@@ -65,11 +65,11 @@ remove.dups  <-  function(pts,
           cellFromXY(mask, pts[, c("lon", "lat")])  # get the cell number for each point
         dup <- duplicated(cell)
         pts1 <-
-          pts[!dup,]  # select the records that are not duplicated
+          pts[!dup, ]  # select the records that are not duplicated
         
         if (na.rm == TRUE) {
           pts1 <-
-            pts1[!is.na(extract(mask, pts1[, c('lon', 'lat')])),]  #selecionando apenas pontos que tem valor de raster
+            pts1[!is.na(extract(mask, pts1[, c('lon', 'lat')])), ]  #selecionando apenas pontos que tem valor de raster
         }
       }
       
@@ -82,11 +82,8 @@ remove.dups  <-  function(pts,
   }
   
   message("Finished ...\n")
-  if (exists(pts1)) {
-    invisible(pts1)
-  }
-  if (!is.null(registros.unique)) {
-    invisible(registros.unique)
-  }
+  
+  invisible(pts1)
+  
   
 }
