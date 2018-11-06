@@ -6,7 +6,7 @@
 #' @param pts Data.frame. Table with points of occurrence, including the municipalities informed on the label.
 #' @param na.rm String. Name of pts column containing the standard to be searched for.
 #' @param mask String.Name of shape column containing the standard to be searched for.
-#' @param dup logical
+#' @param dup logical. If TRUE, remove duplicated coordinates
 #'
 #' @details The
 #'
@@ -16,7 +16,7 @@
 #'
 #' @examples
 #'
-#' eug <- remove.dups(Eugenia_aurata, mask = example, na.rm = FALSE, dup = F)
+#' eug <- remove.dups(Eugenia_aurata, mask = example, na.rm = FALSE, dup = FALSE)
 #' eug
 #'
 #' @importFrom raster cellFromXY extract
@@ -26,10 +26,10 @@
 remove.dups  <-  function(pts,
                           mask = example,
                           na.rm = FALSE,
-                          dup = T) {
+                          dup = TRUE) {
   if (names(pts)[1] == "sp"  &
       names(pts)[2] == "lon" & names(pts)[3] == "lat") {
-    species <- unique(pts$sp)
+    species <- as.vector(unique(pts$sp))
     
     if (dup == T) {
       message("cleaning duplicates")
@@ -39,21 +39,11 @@ remove.dups  <-  function(pts,
     
     if (exists("mask")) {
       if (length(species > 1)) {
-        pb <- txtProgressBar(min = 1,
-                             max = length(species),
-                             style = 3)
-        pts1 = c()
-        for (i in 1:length(species)) {
-          setTxtProgressBar(pb, i)
-          # Selecionar pontos espacialmente únicos #
-          cell <-
-            cellFromXY(mask, pts[pts$sp == species[i], c("lon", "lat")])  # get the cell number for each point
-          dup <- duplicated(cell)
-          pts2 <-
-            pts[pts$sp == species[i] |
-                  !dup, ]  # select the records that are not duplicated
-          pts1 = rbind(pts1, pts2)
-        }
+        # Selecionar pontos espacialmente únicos #
+        cell <- cellFromXY(mask, pts[, c("lon", "lat")])  # get the cell number for each point
+        dupls <- !duplicated(cbind(pts[, 'sp'],cell))
+        pts1 <- pts[dupls, ]
+        
         if (na.rm == TRUE) {
           message("\n Removing NA \n")
           pts1 <-
@@ -84,6 +74,4 @@ remove.dups  <-  function(pts,
   message("Finished ...\n")
   
   invisible(pts1)
-  
-  
 }

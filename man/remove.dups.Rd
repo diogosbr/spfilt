@@ -4,7 +4,7 @@
 \alias{remove.dups}
 \title{Remove duplicated and NAs}
 \usage{
-remove.dups(pts, mask = example, na.rm = FALSE, dup = T)
+remove.dups(pts, mask = example, na.rm = FALSE, dup = TRUE)
 }
 \arguments{
 \item{pts}{Data.frame. Table with points of occurrence, including the municipalities informed on the label.}
@@ -13,7 +13,7 @@ remove.dups(pts, mask = example, na.rm = FALSE, dup = T)
 
 \item{na.rm}{String. Name of pts column containing the standard to be searched for.}
 
-\item{dup}{logical}
+\item{dup}{logical. If TRUE, remove duplicated coordinates}
 }
 \value{
 a data frame
@@ -26,7 +26,7 @@ The
 }
 \examples{
 
-eug <- remove.dups(Eugenia_aurata, mask = example, na.rm = FALSE, dup = F)
+eug <- remove.dups(Eugenia_aurata, mask = example, na.rm = FALSE, dup = FALSE)
 eug
 
 }
