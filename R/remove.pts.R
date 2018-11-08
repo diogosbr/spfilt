@@ -33,6 +33,7 @@ remove.pts = function(pts, especies, value = 10) {
       setTxtProgressBar(pb, i)
     }
     occs <- pts[pts$sp == especies[i], ]
+    occs$sp <- as.vector(occs$sp)
     if (dim(occs)[1] >= value) {
       registros.10 = rbind(registros.10, occs)
     }
